@@ -1,8 +1,82 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sunset Cover Studio</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
-<body><header><a class="brand" href="?">SUNSET<span>®</span><small>COVER STUDIO / VOL. 01</small></a><div class="strap">YOUR LIFE. THE COVER STORY.</div><span class="local">● ALL LOCAL. ALL YOURS.</span></header>
-<main><aside><div class="intro"><span class="eyebrow">THE POSTER LAB</span><h1>Make a scene.</h1><p>Three frames. One unforgettable cover.</p></div>
-<section><h2><b>01</b> THE FRAMES</h2><div id="panels" class="tabs"><button data-panel="0" class="active">Hero</button><button data-panel="1">Frame 02</button><button data-panel="2">Frame 03</button></div><label class="upload">＋ Add your photo<input type="file" id="upload" accept="image/*"></label><div class="samples"><button id="boulevard">↗ Boulevard</button><button id="pier">↗ Ocean pier</button></div><label class="check"><input id="fill" type="checkbox"> Fill all three frames</label><label class="range">Crop zoom <output id="zoomValue">1.00×</output><input id="zoom" type="range" min="1" max="3" step="0.01" value="1"></label><p class="hint">Drag a frame to pan · Drop a photo to replace</p></section>
-<section><h2><b>02</b> THE HEADLINE</h2><input id="title" aria-label="Title" value="NEON COAST" maxlength="32"><input id="tagline" aria-label="Tagline" value="A SUNSET HEIST STORY" maxlength="70"><div class="type-controls"><label>Size<input id="titleSize" type="range" min="65" max="150" value="110"></label><label>Tracking<input id="spacing" type="range" min="-3" max="12" value="0"></label><input id="color" aria-label="Title colour" type="color" value="#fff4db"></div></section>
-<section><h2><b>03</b> THE ATMOSPHERE</h2><div id="grades" class="tabs"><button data-grade="sunset" class="active">Sunset</button><button data-grade="neon">Neon night</button><button data-grade="plain">Plain</button></div><div class="checks"><label><input id="vignette" type="checkbox" checked> Vignette</label><label><input id="texture" type="checkbox" checked> Halftone</label></div></section>
-</aside><article><div class="preview-bar"><span><i></i> LIVE COVER</span><span id="dimensions">1920 × 1080 PX</span></div><div class="canvas-wrap"><canvas id="preview" width="1920" height="1080" aria-label="Cover preview"></canvas></div><div class="under"><span>NEON DREAMS. PAPER MEMORIES.</span><span>DESIGNED BY YOU ↗</span></div><footer><div><span class="eyebrow">EXPORT FORMAT</span><div id="sizes" class="tabs"><button data-size="square">Square <small>1:1</small></button><button data-size="portrait">Portrait <small>4:5</small></button><button data-size="wide" class="active">Widescreen <small>16:9</small></button></div></div><button id="export">Export PNG <span>↓</span></button></footer><p id="status" role="status">Ready for your next cover story.</p></article></main><script type="module" src="src/wiring.js"></script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sunset Cover Studio</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="?">SUNSET<span>®</span><small>COVER STUDIO / VOL. 01</small></a>
+      <div class="strap">YOUR LIFE. THE COVER STORY.</div>
+      <span class="local">● ALL LOCAL. ALL YOURS.</span>
+    </header>
+    <main>
+      <aside>
+        <div class="intro">
+          <span class="eyebrow">THE POSTER LAB</span>
+          <h1>Make a scene.</h1>
+          <p>Three frames. One unforgettable cover.</p>
+        </div>
+        <section>
+          <h2><b>01</b> THE FRAMES</h2>
+          <div id="panels" class="tabs">
+            <button data-panel="0" class="active">Hero</button>
+            <button data-panel="1">Frame 02</button>
+            <button data-panel="2">Frame 03</button>
+          </div>
+          <label class="upload">＋ Add your photo<input type="file" id="upload" accept="image/*"></label>
+          <div class="samples">
+            <button id="boulevard">↗ Boulevard</button>
+            <button id="pier">↗ Ocean pier</button>
+          </div>
+          <label class="check"><input id="fill" type="checkbox"> Fill all three frames</label>
+          <label class="range">Crop zoom <output id="zoomValue">1.00×</output><input id="zoom" type="range" min="1" max="3" step="0.01" value="1"></label>
+          <p class="hint">Drag a frame to pan · Drop a photo to replace</p>
+        </section>
+        <section>
+          <h2><b>02</b> THE HEADLINE</h2>
+          <input id="title" aria-label="Title" value="NEON COAST" maxlength="32">
+          <input id="tagline" aria-label="Tagline" value="A SUNSET HEIST STORY" maxlength="70">
+          <div class="type-controls">
+            <label>Size<input id="titleSize" type="range" min="65" max="150" value="110"></label>
+            <label>Tracking<input id="spacing" type="range" min="-3" max="12" value="0"></label>
+            <input id="color" aria-label="Title colour" type="color" value="#fff4db">
+          </div>
+        </section>
+        <section>
+          <h2><b>03</b> THE ATMOSPHERE</h2>
+          <div id="grades" class="tabs">
+            <button data-grade="sunset" class="active">Sunset</button>
+            <button data-grade="neon">Neon night</button>
+            <button data-grade="plain">Plain</button>
+          </div>
+          <div class="checks">
+            <label><input id="vignette" type="checkbox" checked> Vignette</label>
+            <label><input id="texture" type="checkbox" checked> Halftone</label>
+          </div>
+        </section>
+      </aside>
+      <article>
+        <div class="preview-bar"><span><i></i> LIVE COVER</span><span id="dimensions">1920 × 1080 PX</span></div>
+        <div class="canvas-wrap"><canvas id="preview" width="1920" height="1080" aria-label="Cover preview"></canvas></div>
+        <div class="under"><span>NEON DREAMS. PAPER MEMORIES.</span><span>DESIGNED BY YOU ↗</span></div>
+        <footer>
+          <div>
+            <span class="eyebrow">EXPORT FORMAT</span>
+            <div id="sizes" class="tabs">
+              <button data-size="square">Square <small>1:1</small></button>
+              <button data-size="portrait">Portrait <small>4:5</small></button>
+              <button data-size="wide" class="active">Widescreen <small>16:9</small></button>
+            </div>
+          </div>
+          <button id="export">Export PNG <span>↓</span></button>
+        </footer>
+        <p id="status" role="status">Ready for your next cover story.</p>
+      </article>
+    </main>
+    <script type="module" src="src/wiring.js"></script>
+  </body>
+</html>

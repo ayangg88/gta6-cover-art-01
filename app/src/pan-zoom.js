@@ -1,10 +1,55 @@
 import { panelBoxes } from './layout.js';
-export function connectPanZoom(canvas,state,select,redraw,load){
-  let drag=null;
-  function point(e){const r=canvas.getBoundingClientRect();return [(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height];}
-  function hit(e){const [x,y]=point(e);return panelBoxes(canvas.width,canvas.height).findIndex(([a,b,w,h])=>x>=a&&x<=a+w&&y>=b&&y<=b+h);}
-  canvas.addEventListener('pointerdown',e=>{const i=hit(e);if(i<0)return;select(i);const p=state.panels[i];drag={i,start:point(e),x:p.panX,y:p.panY};canvas.setPointerCapture(e.pointerId);});
-  canvas.addEventListener('pointermove',e=>{if(!drag)return;const p=state.panels[drag.i],box=panelBoxes(canvas.width,canvas.height)[drag.i],pos=point(e);if(!p.image)return;const scale=Math.max(box[2]/p.image.width,box[3]/p.image.height)*p.zoom;const dx=p.image.width*scale-box[2],dy=p.image.height*scale-box[3];p.panX=Math.max(-1,Math.min(1,drag.x+(pos[0]-drag.start[0])*2/Math.max(1,dx)));p.panY=Math.max(-1,Math.min(1,drag.y+(pos[1]-drag.start[1])*2/Math.max(1,dy)));redraw();});
-  canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointercancel',()=>drag=null);
-  canvas.addEventListener('dragover',e=>{e.preventDefault();});canvas.addEventListener('drop',e=>{e.preventDefault();const i=hit(e);if(i>=0&&e.dataTransfer.files[0]){select(i);load(e.dataTransfer.files[0],false);}});
+
+export function connectPanZoom(canvas, state, selectPanel, redraw, loadImage) {
+  let drag = null;
+
+  function canvasPoint(event) {
+    const bounds = canvas.getBoundingClientRect();
+    return [
+      (event.clientX - bounds.left) * canvas.width / bounds.width,
+      (event.clientY - bounds.top) * canvas.height / bounds.height,
+    ];
+  }
+
+  function panelAt(event) {
+    const [pointX, pointY] = canvasPoint(event);
+    return panelBoxes(canvas.width, canvas.height).findIndex(([x, y, width, height]) => (
+      pointX >= x && pointX <= x + width && pointY >= y && pointY <= y + height
+    ));
+  }
+
+  canvas.addEventListener('pointerdown', event => {
+    const index = panelAt(event);
+    if (index < 0) return;
+    selectPanel(index);
+    const panel = state.panels[index];
+    drag = { index, start: canvasPoint(event), panX: panel.panX, panY: panel.panY };
+    canvas.setPointerCapture(event.pointerId);
+  });
+
+  canvas.addEventListener('pointermove', event => {
+    if (!drag) return;
+    const panel = state.panels[drag.index];
+    if (!panel.image) return;
+    const [x, y, width, height] = panelBoxes(canvas.width, canvas.height)[drag.index];
+    const scale = Math.max(width / panel.image.width, height / panel.image.height) * panel.zoom;
+    const overflowX = Math.max(1, panel.image.width * scale - width);
+    const overflowY = Math.max(1, panel.image.height * scale - height);
+    const [pointX, pointY] = canvasPoint(event);
+    panel.panX = Math.max(-1, Math.min(1, drag.panX + (pointX - drag.start[0]) * 2 / overflowX));
+    panel.panY = Math.max(-1, Math.min(1, drag.panY + (pointY - drag.start[1]) * 2 / overflowY));
+    redraw();
+  });
+
+  canvas.addEventListener('pointerup', () => { drag = null; });
+  canvas.addEventListener('pointercancel', () => { drag = null; });
+  canvas.addEventListener('dragover', event => { event.preventDefault(); });
+  canvas.addEventListener('drop', event => {
+    event.preventDefault();
+    const index = panelAt(event);
+    const file = event.dataTransfer.files[0];
+    if (index < 0 || !file) return;
+    selectPanel(index);
+    loadImage(file, false);
+  });
 }

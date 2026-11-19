@@ -1,6 +1,6 @@
 // SUNSET COVER STUDIO packages an offline, three-panel photo poster editor.
 // Original canvas lettering, local samples, and full-resolution PNG exports.
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
@@ -8,7 +8,8 @@ import { buildDossier } from './vendor/makefun-app.ts';
 const here = fileURLToPath(new URL('.', import.meta.url));
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
-if (!existsSync(join(here, 'app', 'index.html'))) throw new Error('Missing studio entry page');
+const entryPage = join(here, 'app', 'index.html');
+if (!existsSync(entryPage) || !statSync(entryPage).isFile()) throw new Error('Missing studio entry page');
 
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
